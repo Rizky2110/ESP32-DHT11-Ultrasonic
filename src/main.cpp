@@ -54,6 +54,7 @@ void loop()
       Serial.println("Type stream to stream data ");
       Serial.println("Type stop to stop stream data");
       Serial.println("Type read to read data log");
+      Serial.println("Type delete to delete data log");
     }
     else if (command.equals("interval"))
     {
@@ -148,9 +149,6 @@ void loop()
       dataSensor["data Heat Index"] = heatIndexC;
       dataSensor["data Distance"] = distanceCm;
 
-      // char bufferdata[4096];
-      // sprintf(bufferdata, "%d", dataSensor);
-      // String data = String(bufferdata);
       delay(100);
       File fileToAppend = SPIFFS.open("/datalog.txt", FILE_APPEND);
       if (!fileToAppend)
@@ -161,7 +159,7 @@ void loop()
 
       if (fileToAppend.println(dataSensor))
       {
-        Serial.println("File content was appended");
+        Serial.println("data was appended to datalog.txt");
       }
       else
       {
@@ -214,11 +212,8 @@ void loop()
       dataSensor["data Heat Index"] = heatIndexC;
       dataSensor["data Distance"] = distanceCm;
 
-      char bufferdata[4096];
-      sprintf(bufferdata, "%d", dataSensor);
-      String data = String(bufferdata);
       Serial.print("DATA = ");
-      Serial.println(data);
+      Serial.println(dataSensor);
       delay(100);
       File fileToAppend = SPIFFS.open("/datalog.txt", FILE_APPEND);
       if (!fileToAppend)
@@ -227,9 +222,9 @@ void loop()
         return;
       }
 
-      if (fileToAppend.println(data))
+      if (fileToAppend.println(dataSensor))
       {
-        Serial.println("File content was appended");
+        Serial.println("data was appended to datalog.txt");
       }
       else
       {
